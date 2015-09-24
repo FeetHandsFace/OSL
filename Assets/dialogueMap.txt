@@ -1,0 +1,20 @@
+Randomly choose introduction line (i.e. what do you have for me today, anything newsworthy, etc)
+"You have something for me?"
+y/n
+All responses after this should pull from sexist, cissexist, or racist dialogue pools
+check the bools(boss replaced?, boss blackmailed?, and player status) 
+if secret is about boss start blackmail dialogue
+if secert is about player start specific rejection dialogue
+if secert has already been pitched start specific dialogue
+and reject or accept accordingly.
+if accpet add to the queue of news stories for the day
+
+sexist dialogue: you should do something more frivilous (rejection for more serious stories), overly explained directions when you already know what you are doing, condesention,
+niceness that has patronizing tone, 
+
+cissexist dialogue: misgendering, threat of firing mami and alex need rejection dialogue if they are out and if they are not
+
+racist dialogue:lazy, stupid, dishonest
+
+Introduction:
+Main character gets taken to a back alley to see a secret deal. the other person tells them that this is what they are investigating 
