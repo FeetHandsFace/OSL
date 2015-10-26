@@ -2,16 +2,17 @@
 using System.Collections;
 
 [RequireComponent(typeof(SphereCollider))]
-public class TurnOnTV : MonoBehaviour {
+[RequireComponent(typeof(IdleMovement))]
+public class SpeakToCoworker : MonoBehaviour {
 
-	TVBroadcast broadCast;
+	public int identityNumber;
+	bool isHighlighted = false;
+	Coworker coworker;
 	DialogueSystem dialogueSystem;
 	SphereCollider sphereCollider;
-	bool isHighlighted = false;
 
-	// Use this for initialization
-	void Start () {
-		broadCast = Persistant.persist.tvBroadcast;
+	void Start() {
+		coworker = Persistant.persist.coWorkers[identityNumber];
 		dialogueSystem = Persistant.persist.GetComponent<DialogueSystem>();
 		sphereCollider = GetComponent<SphereCollider>();
 	}
@@ -22,12 +23,13 @@ public class TurnOnTV : MonoBehaviour {
 
 	void OnTriggerExit(Collider other) {
 		isHighlighted = false;
+		if (dialogueSystem.stillTalking()) dialogueSystem.cutOffConversation();
 	}
 
 	// Update is called once per frame
-	void Update () {
-		if(isHighlighted && Input.GetMouseButtonDown(0)) {
-			broadCast.beginBroadCast();
+	void Update() {
+		if (isHighlighted && Input.GetMouseButtonDown(0)) {
+			coworker.beginConversation();
 			isHighlighted = false;
 			sphereCollider.enabled = false;
 		}

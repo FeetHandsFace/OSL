@@ -7,7 +7,7 @@ using System.Linq;
 public class Inventory : MonoBehaviour {
 
 	List<Secret> tradeAndDevalue;
-	List<Secret> secretsInventory;
+	public List<Secret> secretsInventory;
 	Secret upForTrade;
 
 	//Generic secret icon for the inventory
@@ -19,21 +19,37 @@ public class Inventory : MonoBehaviour {
 	public Text descrptionBox;
 
 	public Boss daBoss;
+	public Coworker coWorker;
+	public Merchant merchant;
 	public State getState {get {return state;}}
 	State state;
 
-	// Use this for initialization
-	void Start() {
-		daBoss = GetComponent<Boss>();
-		secretsInventory = new List<Secret>();
-		tradeAndDevalue = new List<Secret> ();
+	public void startNew(Boss boss) {
+		daBoss = boss;
 		state = State.IDLE;
-		descrptionBox.text = "";
 		secretButtonSize = generic.GetComponent<RectTransform>();
-		
-		for(int i = 0; i < secretsInventory.Count; i++) {
+		tradeAndDevalue = new List<Secret>();
+
+		secretsInventory = new List<Secret>();
+	}
+
+	public void loadSave(Boss boss, List<Secret> secrets) {
+		daBoss = boss;
+		state = State.IDLE;
+		secretButtonSize = generic.GetComponent<RectTransform>();
+		tradeAndDevalue = new List<Secret>();
+
+		secretsInventory = secrets;
+		for (int i = 0; i < secretsInventory.Count; i++) {
 			secretButtonBuilder(secretsInventory[i]);
 		}
+	}
+
+	// Use this for initialization
+	void Start() {
+		tradeAndDevalue = new List<Secret> ();
+		
+		
 	}
 
 	//Sorts the secretsInventory based on the market value of a secert.
@@ -54,16 +70,22 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	public void initiateTrade(Secret upForTrade){
+	public void initiateTrade(Secret upForTrade, Merchant mrchnt){
 		state = State.TRADING;
+		merchant = mrchnt;
 		this.upForTrade = upForTrade;
 		displayTradeWindow ();
 		contents.GetComponentInChildren<Text> ().text = upForTrade.groupNumber.ToString ();
 	}
 
 
-	public void initiatePitch(Boss boss) {
+	public void initiatePitch() {
 		state = State.PITCHING;
+	}
+
+	public void giveToCoworker(Coworker cw) {
+		coWorker = cw;
+		state = State.PITCHING_COWORKER;
 	}
 
 	public void endPitch() {
@@ -162,6 +184,9 @@ public class Inventory : MonoBehaviour {
 				case State.PITCHING:
 					displayInventory();
 					break;
+				case State.PITCHING_COWORKER:
+					displayInventory();
+					break;
 				default:
 					break;
 				}
@@ -179,6 +204,9 @@ public class Inventory : MonoBehaviour {
 				case State.PITCHING:
 					hideInventory();
 					break;
+				case State.PITCHING_COWORKER:
+					hideInventory();
+					break;
 				default:
 					break;
 				}
@@ -187,5 +215,5 @@ public class Inventory : MonoBehaviour {
 	}
 }
 
-public enum State {TRADING, PITCHING, IDLE};
+public enum State {TRADING, PITCHING, PITCHING_COWORKER, IDLE};
 

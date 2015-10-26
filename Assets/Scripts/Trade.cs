@@ -1,20 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Trade : ProximityTrigger {
+[RequireComponent(typeof(SphereCollider))]
+public class Trade : MonoBehaviour {
 
-	Secret randomSecret;
-	Inventory inven;
+	public int identityNumber;
+	Merchant merchant;
+	SphereCollider sphereCollider;
+	bool isHighlighted = false;
+	
+	/*Relationship with a trading source, things to save:
+		How many times they have been stolen from
+		How many times they have been short changed
+		*/
 
 	// Use this for initialization
 	void Start () {
-		randomSecret = Persistant.persist.masterList [Random.Range (0, 1)];
-		inven = Persistant.persist.GetComponent<Inventory> ();
+		//pulls a random 
+		merchant = Persistant.persist.merchants[identityNumber];
+		sphereCollider = GetComponent<SphereCollider>();
+	}
+
+	void OnTriggerEnter(Collider other) {
+		isHighlighted = true;
+	}
+
+	void OnTriggerExit(Collider other) {
+		isHighlighted = false;
 	}
 
 	void Update(){
 		if(Input.GetMouseButtonDown(0) && isHighlighted){
-			inven.initiateTrade (randomSecret);
+			merchant.beginTrade();
+			isHighlighted = false;
+
 		}
 	}
 }

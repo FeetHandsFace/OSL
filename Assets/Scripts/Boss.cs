@@ -1,32 +1,43 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
+﻿using System;
 
-public class Boss : MonoBehaviour {
+public class Boss {
 
-	bool blackMailed, fired, talking;
+	public bool blackMailed, fired, angry;
 	Persistant bossAndPlayerInfo;
 	Inventory inven;
 	TVBroadcast broadCast;
+	DialogueSystem dialogueSystem;
 	string bossName;
-	Queue<string> dialogueBlock;
 
 
-	public string[] unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets;
-	public Text dialogueBox;
-	
-	// Use this for initialization
-	void Start () {
-		talking = false;
+	string[] unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets;
+
+	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS) {
 		//bossName =  need to choose the boss' name
 		bossAndPlayerInfo = Persistant.persist;
-		inven = GetComponent<Inventory>();
-		broadCast = GetComponent<TVBroadcast>();
-		blackMailed = bossAndPlayerInfo.bossIsBlackMailed;
-		fired = bossAndPlayerInfo.bossWasFired;
-		dialogueBlock = new Queue<string>();
+		inven = invntry;
+		dialogueSystem = dSystem;
+		broadCast = tvBroadcast;
+		unPublishableSecrets = uPS;
+		sexistUnPublishableSecrets = sUPS;
+		cisSexistUnPublishableSecrets = cUPS;
+		blackMailed = false;
+		fired = false;
+		angry = false;
+	}
+
+	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS, bool wasBlackMailed, bool wasFired, bool isAngry) {
+		//bossName =  need to choose the boss' name
+		bossAndPlayerInfo = Persistant.persist;
+		inven = invntry;
+		dialogueSystem = dSystem;
+		broadCast = tvBroadcast;
+		unPublishableSecrets = uPS;
+		sexistUnPublishableSecrets = sUPS;
+		cisSexistUnPublishableSecrets = cUPS;
+		blackMailed = wasBlackMailed;
+		fired = wasFired;
+		angry = isAngry;
 	}
 
 	public void introduction(){
@@ -34,9 +45,8 @@ public class Boss : MonoBehaviour {
 	}
 
 	public void beginConversation() {
-		talking = true;
-		dialogueBox.text = "You have something for me?";
-		inven.initiatePitch(this);
+		dialogueSystem.loadDialogueBlock("You have something for me?");
+		inven.initiatePitch();
 	}
 
 	//The only secrets you are allowed to normally pitch are ones that support the system and status quo
@@ -45,54 +55,41 @@ public class Boss : MonoBehaviour {
 			//any and all secrets will be immediatly accepted except secrets about your boss
 			//print accpetance and add to the queue
 			if (pitch.groupName != bossName) {
-				foreach (string s in pitch.blackmailAcceptance.Split("."[0])) { dialogueBlock.Enqueue(s); }
-				dialogueBox.text = dialogueBlock.Dequeue() + ".";
+				dialogueSystem.loadDialogueBlock(pitch.blackmailAcceptance);
 				if (pitch.delayedBroadCastDialogue != "") broadCast.addStory(pitch.delayedBroadCastDialogue);
 				broadCast.addStory(pitch.broadCastDialogue);
 			} else {
-				dialogueBox.text = "I won't; whatever else you want, but not this.";
+				dialogueSystem.loadDialogueBlock("I won't; whatever else you want, but not this.");
 			}
 		} else if (pitch.groupName == bossName) {
 			//blackmail the boss
 			blackMailed = true;
-			dialogueBox.text = "Okay. Whatever you want; just please don't spread this around";
+			dialogueSystem.loadDialogueBlock("Okay. Whatever you want; just please don't spread this around");
+		}else if(pitch.groupName == bossAndPlayerInfo.mainCharacter) {
+			dialogueSystem.loadDialogueBlock("You are not news.");
 		} else if (pitch.pitchCount > 0) {
 			//print generic dialogue for second refusal
-			dialogueBox.text = "I saw this already and said no; stop wasting my time.";
+			dialogueSystem.loadDialogueBlock("I saw this already and said no; stop wasting my time.");
 		} else if (pitch.pitchCount > 1) {
 			//print generic dialogue for third refusal
-			dialogueBox.text = "You are wasting my time; get the hell out of my office.";
+			dialogueSystem.loadDialogueBlock("You are wasting my time; get the hell out of my office.");
 		} else if (Array.Exists (unPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
 			//print rejection (applies to everyone)
-			foreach (string s in pitch.pullRejection(bossAndPlayerInfo.mainCharacter).Split("."[0])) { dialogueBlock.Enqueue(s); }
-			dialogueBox.text = dialogueBlock.Dequeue() + ".";
+			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
 		} else if (bossAndPlayerInfo.isFemale && Array.Exists (sexistUnPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
 			//print rejection (applies to mami, aisha, and luca only)
-			foreach (string s in pitch.pullRejection(bossAndPlayerInfo.mainCharacter).Split("."[0])) { dialogueBlock.Enqueue(s); }
-			dialogueBox.text = dialogueBlock.Dequeue() + ".";
+			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
 		} else if (bossAndPlayerInfo.playerOuted && Array.Exists (cisSexistUnPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
 			//print rejection (can apply to mami and alex)
-			foreach (string s in pitch.pullRejection(bossAndPlayerInfo.mainCharacter).Split("."[0])) { dialogueBlock.Enqueue(s); }
-			dialogueBox.text = dialogueBlock.Dequeue() + ".";
+			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
+
 		} else {
 			//print accept and add to the queue
-			foreach (string s in pitch.acceptance.Split("."[0])) { dialogueBlock.Enqueue(s); }
-			dialogueBox.text = dialogueBlock.Dequeue() + ".";
+			dialogueSystem.loadDialogueBlock(pitch.acceptance);
 			if (pitch.delayedBroadCastDialogue != "") broadCast.addStory(pitch.delayedBroadCastDialogue);
 			broadCast.addStory(pitch.broadCastDialogue);
 		}
 		pitch.pitchCount++;
 		inven.endPitch();
-	}
-
-	// Update is called once per frame
-	void Update () {
-		if (talking && (Input.GetKeyDown("space") || Input.GetMouseButtonDown(0))) {
-			if (dialogueBlock.Count != 0) {
-				dialogueBox.text = dialogueBlock.Dequeue() + ".";
-			} else {
-				dialogueBox.text = "";
-			}
-		}
 	}
 }

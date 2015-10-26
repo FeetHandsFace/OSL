@@ -1,6 +1,6 @@
-using UnityEngine;
+//using UnityEngine;
 using System;
-using System.Collections;
+//using System.Collections;
 using UnityEngine.UI;
 //Need to add an int for the severity of the secret and a color code to corrispond to the secret
 public class Secret : IComparable {
@@ -52,7 +52,7 @@ public class Secret : IComparable {
 		this.blackmailAcceptance = blackmailAcceptance;
 		this.broadCastDialogue = broadCastDialogue;
 		this.delayedBroadCastDialogue = delayedBroadCastDialogue;
-		wasTraded = false;
+		wasTraded = false; //I don't think i need this
 		wasBroadcast = false;
 		inven = Persistant.persist.GetComponent<Inventory> ();
 		valueUpdate ();
@@ -81,7 +81,7 @@ public class Secret : IComparable {
 	}
 
 	public void displayText(){
-		inven.descrptionBox.text = groupName + "\r\n" + description + "\r\n" + "Days Since Accquired: " + daysSinceAccquired.ToString() + "\r\n" + "Severity: " + severity.ToString();
+		inven.descrptionBox.text = groupName + "\r\n" + description + "\r\n" + "Days Since Accquired: " + daysSinceAccquired + "\r\n" + crimeTag;
 	}
 
 	public void hideText(){

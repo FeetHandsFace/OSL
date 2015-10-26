@@ -21,6 +21,9 @@ public class DisplaySecret : MonoBehaviour {
 		case State.PITCHING:
 			thisSecret.inven.daBoss.pitchSecret(thisSecret);
 			break;
+		case State.PITCHING_COWORKER:
+			thisSecret.inven.coWorker.giveSecret(thisSecret);
+			break;
 		case State.TRADING:
 			thisSecret.inven.goBackToTrade (thisSecret);
 			if(GetComponent<Image>().color == Color.gray){

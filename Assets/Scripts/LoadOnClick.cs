@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LoadOnClick : ProximityTrigger {
 
-	public string destination; 
+public class LoadOnClick : MonoBehaviour {
+
+	public string destination;
+	public string home;
 	
 	public void load(){
-		Application.LoadLevel (destination);
-	}
-	
-	void Update(){
-		if (Input.GetMouseButtonDown (0) && isHighlighted)load ();
+		if (/*check for save game*/false) {
+			Application.LoadLevel(home);
+		} else {
+			Application.LoadLevel(destination);
+		}
 	}
 }
