@@ -15,7 +15,7 @@ public class DisplaySecret : MonoBehaviour {
 	}
 
 	public void bidSecret(){
-		switch (thisSecret.inven.getState) {
+		switch (Inventory.getState) {
 		case State.IDLE:
 			break;
 		case State.PITCHING:

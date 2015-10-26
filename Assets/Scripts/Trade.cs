@@ -30,10 +30,8 @@ public class Trade : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetMouseButtonDown(0) && isHighlighted){
+		if(Input.GetMouseButtonDown(0) && isHighlighted && Inventory.getState != State.TRADING){
 			merchant.beginTrade();
-			isHighlighted = false;
-
 		}
 	}
 }

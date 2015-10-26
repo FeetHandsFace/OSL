@@ -21,8 +21,8 @@ public class Inventory : MonoBehaviour {
 	public Boss daBoss;
 	public Coworker coWorker;
 	public Merchant merchant;
-	public State getState {get {return state;}}
-	State state;
+	public static State getState {get {return state;}}
+	static State state;
 
 	public void startNew(Boss boss) {
 		daBoss = boss;
@@ -45,13 +45,6 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Start() {
-		tradeAndDevalue = new List<Secret> ();
-		
-		
-	}
-
 	//Sorts the secretsInventory based on the market value of a secert.
 	public void valueSort(){
 		secretsInventory.Sort ();		
@@ -70,12 +63,13 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
+	//anytime a player clicks on a trade object this method runs so do not weigh it down too much
 	public void initiateTrade(Secret upForTrade, Merchant mrchnt){
 		state = State.TRADING;
 		merchant = mrchnt;
 		this.upForTrade = upForTrade;
 		displayTradeWindow ();
-		contents.GetComponentInChildren<Text> ().text = upForTrade.groupNumber.ToString ();
+		contents.GetComponentInChildren<Text> ().text = upForTrade.groupName + " " + upForTrade.crimeTag;
 	}
 
 
