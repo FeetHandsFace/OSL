@@ -53,7 +53,7 @@ public class Secret : IComparable {
 		this.broadCastDialogue = broadCastDialogue;
 		this.delayedBroadCastDialogue = delayedBroadCastDialogue;
 		wasTraded = false; //I don't think i need this
-		wasBroadcast = false;
+		wasBroadcast = false; //maybe don't need this either, I will simply tank the value of the secret
 		inven = Persistant.persist.GetComponent<Inventory> ();
 		valueUpdate ();
 	}

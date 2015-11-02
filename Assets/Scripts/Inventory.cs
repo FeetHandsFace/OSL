@@ -6,17 +6,15 @@ using System.Linq;
 
 public class Inventory : MonoBehaviour {
 
-	List<Secret> tradeAndDevalue;
 	public List<Secret> secretsInventory;
-	Secret upForTrade;
 
 	//Generic secret icon for the inventory
 	public Button generic;
 	RectTransform secretButtonSize;
 
-	public Button valueSortButton, groupSortButton, contents, playerOffering, tradeButton;
-	public Image cullingMask;
-	public Text descrptionBox;
+	public Button valueSortButton, groupSortButton;
+	public Image tradeContents, playerOffering, cullingMask;
+	public Text descrptionBox, scrollOverInfo;
 
 	public Boss daBoss;
 	public Coworker coWorker;
@@ -24,11 +22,26 @@ public class Inventory : MonoBehaviour {
 	public static State getState {get {return state;}}
 	static State state;
 
+	//If Player just went to world map check with the merchant they dealt with. If the merchant is a silent merchant then evealute the secrets the player traded against the ones they took
+	//mark the merchant as stolen from or short changed accordingly
+	void OnLevelWasLoaded(int level) {
+		if (level == 3 && merchant != null) {
+			float paymentValue = 0;
+			BurnerSecret[] playerPayment = playerOffering.GetComponentsInChildren<BurnerSecret>();
+			for(int i = 0; i < playerPayment.Length; i++) {
+				paymentValue += playerPayment[i].secretData.value;
+			}
+			if(paymentValue == 0) {
+				merchant.stolenFrom = true;
+			}
+			merchant = null;
+		}
+	}
+
 	public void startNew(Boss boss) {
 		daBoss = boss;
 		state = State.IDLE;
 		secretButtonSize = generic.GetComponent<RectTransform>();
-		tradeAndDevalue = new List<Secret>();
 
 		secretsInventory = new List<Secret>();
 	}
@@ -37,11 +50,10 @@ public class Inventory : MonoBehaviour {
 		daBoss = boss;
 		state = State.IDLE;
 		secretButtonSize = generic.GetComponent<RectTransform>();
-		tradeAndDevalue = new List<Secret>();
 
 		secretsInventory = secrets;
 		for (int i = 0; i < secretsInventory.Count; i++) {
-			secretButtonBuilder(secretsInventory[i]);
+			acquireHelper(secretsInventory[i]);
 		}
 	}
 
@@ -63,35 +75,38 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	//anytime a player clicks on a trade object this method runs so do not weigh it down too much
+	//anytime a player clicks on a trade object this method runs
 	public void initiateTrade(Secret upForTrade, Merchant mrchnt){
+		displayTradeWindow();
 		state = State.TRADING;
-		merchant = mrchnt;
-		this.upForTrade = upForTrade;
-		displayTradeWindow ();
-		contents.GetComponentInChildren<Text> ().text = upForTrade.groupName + " " + upForTrade.crimeTag;
+		if (merchant != mrchnt) {
+			merchant = mrchnt;
+			GameObject obj = ObjectPooler.current.getPooledObject();
+			obj.transform.SetParent(tradeContents.transform, false);
+			BurnerSecret burner = obj.GetComponent<BurnerSecret>();
+			burner.secretData = upForTrade;
+			burner.mouseInfoText = scrollOverInfo;
+			obj.SetActive(true);
+		}
 	}
-
-
+	//Used when moving out of the collider of a trade object
+	public void endTrade() {
+		state = State.IDLE;
+		hideTradeWindow();
+	}
+	//Used when player starts talking to boss
 	public void initiatePitch() {
 		state = State.PITCHING;
 	}
-
-	public void giveToCoworker(Coworker cw) {
-		coWorker = cw;
-		state = State.PITCHING_COWORKER;
-	}
-
+	//Used when player gives something to the boss
 	public void endPitch() {
 		state = State.IDLE;
 		hideInventory();
 	}
-
-	//Adds secrets to the inventory after a trade.
-	public void acquire (){
-		if (!secretsInventory.Contains (upForTrade)) {
-			acquireHelper(upForTrade);
-		}
+	//Used when player starts talking to a coworker
+	public void giveToCoworker(Coworker cw) {
+		coWorker = cw;
+		state = State.PITCHING_COWORKER;
 	}
 
 	public void acquireHelper(Secret newlyAcquired){
@@ -100,7 +115,7 @@ public class Inventory : MonoBehaviour {
 	}
 
 	void secretButtonBuilder(Secret toBeBuilt){
-		Button temp = Instantiate (generic, new Vector3 ((secretButtonSize.sizeDelta.x * 1.2f * (secretsInventory.Count % 4)),- (secretButtonSize.sizeDelta.y * 1.2f * ((secretsInventory.Count / 4)+1))), Quaternion.identity) as Button;
+		Button temp = Instantiate (generic, new Vector3 ((secretButtonSize.sizeDelta.x * 1.2f * (secretsInventory.Count % 5)),- (secretButtonSize.sizeDelta.y * 1.2f * ((secretsInventory.Count / 5)+1))), Quaternion.identity) as Button;
 		temp.transform.SetParent (cullingMask.transform, false);
 		temp.GetComponent<DisplaySecret>().thisSecret = toBeBuilt;
 		toBeBuilt.secretObject = temp;
@@ -109,7 +124,7 @@ public class Inventory : MonoBehaviour {
 	//Can't lose secrets, they simlpy lose value.
 	public void devalue(){
 		//Devaluation will be represented by the number of days since being traded, so the 
-		//secrets value will double every time they are traded 
+		//secrets value will double every day you have them
 		//offer.value *= 2; 
 	}
 
@@ -119,34 +134,28 @@ public class Inventory : MonoBehaviour {
 		displayInventory ();
 	}
 
-	//when a secret is choosen during a trade it is added to the pool and to the list of secrets to be traded and devalued
-	//the secrets that are added are also represented in the trade pool
+	//Displays the trade window
 	public void goBackToTrade (Secret bid){
-		//if trade and devalue does not contain secret then add it and display it otherwise remove it and stop displaying it
-		if (tradeAndDevalue.Contains (bid)) {
-			tradeAndDevalue.Remove (bid);
-		} else {
-			tradeAndDevalue.Add(bid);
-		}
-		displayTradeWindow ();
-		hideInventory ();
-		string temp = "";
-		for(int i = 0; i < tradeAndDevalue.Count; i++) {
-			temp += "\r\n" + tradeAndDevalue[i].groupName;
-		}
-		playerOffering.GetComponentInChildren<Text> ().text = temp;
+		GameObject obj = ObjectPooler.current.getPooledObject();
+		obj.transform.SetParent(playerOffering.transform, false);
+		BurnerSecret burner = obj.GetComponent<BurnerSecret>();
+		burner.secretData = bid;
+		burner.mouseInfoText = scrollOverInfo;
+		obj.SetActive(true);
+		displayTradeWindow();
+		hideInventory();
 	}
 
 	void hideTradeWindow(){
-		contents.gameObject.SetActive (false);
+		tradeContents.gameObject.SetActive (false);
 		playerOffering.gameObject.SetActive (false);
-		tradeButton.gameObject.SetActive (false);
+		scrollOverInfo.gameObject.SetActive(false);
 	}
 
 	void displayTradeWindow(){
-		contents.gameObject.SetActive (true);
+		tradeContents.gameObject.SetActive (true);
 		playerOffering.gameObject.SetActive (true);
-		tradeButton.gameObject.SetActive (true);
+		scrollOverInfo.gameObject.SetActive(true);
 	}
 
 	void displayInventory(){
@@ -165,45 +174,48 @@ public class Inventory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Application.loadedLevel != 0) {
-			if (Input.GetKeyUp ("i")) {
-				switch(state){
-				case State.TRADING:
-					hideTradeWindow();
-					displayInventory ();
-					break;
-				case State.IDLE:
-					displayInventory ();
-					break;
-				case State.PITCHING:
-					displayInventory();
-					break;
-				case State.PITCHING_COWORKER:
-					displayInventory();
-					break;
-				default:
-					break;
+		//Need to stop people from opening inventory in first and second scenes-------------------------------IMPORTANT!!!!!!!!!-------------------------------------------
+		if (Input.GetKeyUp ("i")) {
+			switch (state) {
+			case State.TRADING:
+				if (cullingMask.gameObject.activeSelf) { //If your inventory is up while trading and you press i then bring trade back up
+					hideInventory();
+					displayTradeWindow();
+				} else {//If the trade table is up while trading and you press bring up inventory
+					goFromTradeToInventory();
 				}
+				break;
+			case State.IDLE:
+				displayInventory ();
+				break;
+			case State.PITCHING:
+				displayInventory();
+				break;
+			case State.PITCHING_COWORKER:
+				displayInventory();
+				break;
+			default:
+				break;
 			}
-			if (Input.GetKeyUp ("space")){
-				switch(state){
-				case State.TRADING:
-					hideTradeWindow();
-					hideInventory (); 
-					state = State.IDLE;
-					break;
-				case State.IDLE:
-					hideInventory ();
-					break;
-				case State.PITCHING:
-					hideInventory();
-					break;
-				case State.PITCHING_COWORKER:
-					hideInventory();
-					break;
-				default:
-					break;
-				}
+		}
+		if (Input.GetKeyUp ("space")){
+			switch(state){
+			case State.TRADING:
+				hideTradeWindow();
+				hideInventory (); 
+				state = State.IDLE;
+				break;
+			case State.IDLE:
+				hideInventory ();
+				break;
+			case State.PITCHING:
+				hideInventory();
+				break;
+			case State.PITCHING_COWORKER:
+				hideInventory();
+				break;
+			default:
+				break;
 			}
 		}
 	}

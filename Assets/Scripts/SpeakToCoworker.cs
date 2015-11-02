@@ -26,7 +26,7 @@ public class SpeakToCoworker : MonoBehaviour {
 		if (dialogueSystem.stillTalking()) dialogueSystem.cutOffConversation();
 	}
 
-	// Update is called once per frame
+	//When you start speaking to this coworker you cannot speak to them again afterwards
 	void Update() {
 		if (isHighlighted && Input.GetMouseButtonDown(0)) {
 			coworker.beginConversation();

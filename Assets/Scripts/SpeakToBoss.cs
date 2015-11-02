@@ -25,7 +25,7 @@ public class SpeakToBoss : MonoBehaviour {
 		if (dialogueSystem.stillTalking()) dialogueSystem.cutOffConversation();
 	}
 	
-	// Update is called once per frame
+	// When you start speaking to the boss you cannot speak to the boss again 
 	void Update () {
 		if (isHighlighted && Input.GetMouseButtonDown(0)) {
 			boss.beginConversation();

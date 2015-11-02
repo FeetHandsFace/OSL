@@ -51,6 +51,7 @@ public class Boss {
 
 	//The only secrets you are allowed to normally pitch are ones that support the system and status quo
 	public void pitchSecret(Secret pitch){
+		inven.endPitch();
 		if (blackMailed) {
 			//any and all secrets will be immediatly accepted except secrets about your boss
 			//print accpetance and add to the queue
@@ -90,6 +91,5 @@ public class Boss {
 			broadCast.addStory(pitch.broadCastDialogue);
 		}
 		pitch.pitchCount++;
-		inven.endPitch();
 	}
 }

@@ -27,6 +27,7 @@ public class Trade : MonoBehaviour {
 
 	void OnTriggerExit(Collider other) {
 		isHighlighted = false;
+		merchant.inven.endTrade();
 	}
 
 	void Update(){

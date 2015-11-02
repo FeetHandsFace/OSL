@@ -5,6 +5,11 @@ using UnityEngine.UI;
 public class DisplaySecret : MonoBehaviour {
 
 	public Secret thisSecret;
+	public Image img;
+
+	void Start() {
+		img = GetComponent<Image>();
+	}
 
 	public void mouseEnter(){
 		thisSecret.displayText ();
@@ -26,11 +31,6 @@ public class DisplaySecret : MonoBehaviour {
 			break;
 		case State.TRADING:
 			thisSecret.inven.goBackToTrade (thisSecret);
-			if(GetComponent<Image>().color == Color.gray){
-				GetComponent<Image>().color = Color.white;
-			}else{
-				GetComponent<Image>().color = Color.gray;
-			}
 			break;
 		default:
 			break;

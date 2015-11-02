@@ -60,7 +60,7 @@ public class Persistant : MonoBehaviour {
 		if (newGame) {
 
 			playerInventory.startNew(boss);
-
+			//When these first secrets are built the reference to secretObject is null
 			string[] fileParser = masterFile.text.Split("\n"[0]);
 			for (int i = 0; i < fileParser.Length; i += 16) {
 				masterList.Add(new Secret(rand.Next(1, 5), Convert.ToInt32(fileParser[i]), Convert.ToInt32(fileParser[i + 1]), fileParser[i + 2], fileParser[i + 3], fileParser[i + 4],
@@ -77,7 +77,7 @@ public class Persistant : MonoBehaviour {
 
 			merchants = new Merchant[2];
 			for (int i = 0; i < merchants.Length; i++) {
-				merchants[i] = new Merchant(playerInventory, masterList[rand.Next(0, 1)]);
+				merchants[i] = new Merchant(playerInventory, masterList[rand.Next(1, masterList.Count)]);
 			}
 		} else {
 			Load();
@@ -109,8 +109,13 @@ public class Persistant : MonoBehaviour {
 
 	}
 
-	public void refreshWhileAsleep() {
-
+	public void sleepCycle() {
+		for(int i = 0; i < playerInventory.secretsInventory.Count; i++) {
+			playerInventory.secretsInventory[i].daysSinceAccquired++;
+			playerInventory.secretsInventory[i].trueDSA++;
+		}
+		//Tick all secrets up on number of days since accquired 
+		//If player didn't watch news then pop the news stories of the stack for the day
 	}
 	
 	// Update is called once per frame
