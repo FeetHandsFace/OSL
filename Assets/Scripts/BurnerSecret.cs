@@ -28,6 +28,7 @@ public class BurnerSecret : MonoBehaviour {
 		if(secretData.secretObject != null) {   //you are taking back a secret that you alread own
 			gameObject.SetActive(false);
 		} else {                            //you are taking a secret from a merchant
+			secretData.inven.valueOfTakenSecrets += secretData.value;
 			secretData.inven.acquireHelper(secretData);
 			gameObject.SetActive(false);
 		}

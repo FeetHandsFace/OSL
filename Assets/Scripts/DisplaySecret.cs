@@ -20,6 +20,7 @@ public class DisplaySecret : MonoBehaviour {
 	}
 
 	public void bidSecret(){
+		Debug.Log("display state " + Inventory.getState);
 		switch (Inventory.getState) {
 		case State.IDLE:
 			break;

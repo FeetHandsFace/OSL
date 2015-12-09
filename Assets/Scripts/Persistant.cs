@@ -28,6 +28,7 @@ public class Persistant : MonoBehaviour {
 	//Components
 	Inventory playerInventory;
 	DialogueSystem dialogueSystem;
+	Calender calender;
 	//Non-monobehavior scripts
 	public Boss boss;
 	public Coworker[] coWorkers;
@@ -49,6 +50,7 @@ public class Persistant : MonoBehaviour {
 		//Component scripts initilizded 
 		dialogueSystem = GetComponent<DialogueSystem>();
 		playerInventory = GetComponent<Inventory>();
+		calender = GetComponent<Calender>();
 		//Non-monobehavior scripts initilized 
 		tvBroadcast = new TVBroadcast(dialogueSystem, topNewsStories.text);
 		boss = new Boss(playerInventory, dialogueSystem, tvBroadcast, unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets);
@@ -70,7 +72,7 @@ public class Persistant : MonoBehaviour {
 			playerSelectionList = new List<Secret>();
 			fileParser = playerSelectionFile.text.Split("\n"[0]);
 			for (int i = 0; i < fileParser.Length; i += 16) {
-				playerSelectionList.Add(new Secret(1, Convert.ToInt32(fileParser[i]), Convert.ToInt32(fileParser[i + 1]), fileParser[i + 2], fileParser[i + 3], fileParser[i + 4],
+				playerSelectionList.Add(new Secret(0, Convert.ToInt32(fileParser[i]), Convert.ToInt32(fileParser[i + 1]), fileParser[i + 2], fileParser[i + 3], fileParser[i + 4],
 												   fileParser[i + 5], fileParser[i + 6], fileParser[i + 7], fileParser[i + 8], fileParser[i + 9], fileParser[i + 10], fileParser[i + 11],
 												   fileParser[i + 12], fileParser[i + 13], fileParser[i + 14], fileParser[i + 15]));
 			}
@@ -97,6 +99,13 @@ public class Persistant : MonoBehaviour {
 
 	}
 
+	Secret[] textAssetParser(TextAsset rawFile) {
+		string[] rawStrings = rawFile.text.Split("\n"[0]);
+		Secret[] builtSecrets = new Secret[(rawStrings.Length / 16)];
+
+		return builtSecrets;
+	}
+
 	public void moveCharacterSecrets(string characterName){
 		mainCharacter = characterName;
 		Debug.Log ("start move");
@@ -110,11 +119,12 @@ public class Persistant : MonoBehaviour {
 	}
 
 	public void sleepCycle() {
+		calender.changeDay();
 		for(int i = 0; i < playerInventory.secretsInventory.Count; i++) {
-			playerInventory.secretsInventory[i].daysSinceAccquired++;
-			playerInventory.secretsInventory[i].trueDSA++;
+			if (playerInventory.secretsInventory[i].dayAccquired != 0) {
+				playerInventory.secretsInventory[i].valueUpdate();
+			}
 		}
-		//Tick all secrets up on number of days since accquired 
 		//If player didn't watch news then pop the news stories of the stack for the day
 	}
 	

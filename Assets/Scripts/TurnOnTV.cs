@@ -14,6 +14,7 @@ public class TurnOnTV : MonoBehaviour {
 		broadCast = Persistant.persist.tvBroadcast;
 		dialogueSystem = Persistant.persist.GetComponent<DialogueSystem>();
 		sphereCollider = GetComponent<SphereCollider>();
+		sphereCollider.isTrigger = true;
 	}
 
 	void OnTriggerEnter(Collider other) {

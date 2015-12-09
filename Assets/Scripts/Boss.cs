@@ -1,14 +1,18 @@
 ﻿using System;
 
+public enum BossState {CALM, ANGRY, CALM1, ANGRY1, CALM2, PERMANGRY}
+
 public class Boss {
 
-	public bool blackMailed, fired, angry;
+	public bool blackMailed, fired;
+	public BossState bossState;
 	Persistant bossAndPlayerInfo;
 	Inventory inven;
 	TVBroadcast broadCast;
 	DialogueSystem dialogueSystem;
 	string bossName;
 
+	SpeakToBoss speakToBoss;
 
 	string[] unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets;
 
@@ -23,10 +27,10 @@ public class Boss {
 		cisSexistUnPublishableSecrets = cUPS;
 		blackMailed = false;
 		fired = false;
-		angry = false;
+		bossState = BossState.CALM;
 	}
 
-	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS, bool wasBlackMailed, bool wasFired, bool isAngry) {
+	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS, bool wasBlackMailed, bool wasFired, BossState bState) {
 		//bossName =  need to choose the boss' name
 		bossAndPlayerInfo = Persistant.persist;
 		inven = invntry;
@@ -37,16 +41,41 @@ public class Boss {
 		cisSexistUnPublishableSecrets = cUPS;
 		blackMailed = wasBlackMailed;
 		fired = wasFired;
-		angry = isAngry;
+		bossState = bState;
 	}
 
 	public void introduction(){
 
 	}
 
-	public void beginConversation() {
-		dialogueSystem.loadDialogueBlock("You have something for me?");
-		inven.initiatePitch();
+	public void beginConversation(SpeakToBoss stb) {
+		speakToBoss = stb;
+		if (blackMailed) {
+			dialogueSystem.loadDialogueBlock("You have something for me?");
+			inven.initiatePitch();
+		} else { 
+			switch (bossState) {
+			case BossState.CALM://Not angry
+				dialogueSystem.loadDialogueBlock("You have something for me?");
+				inven.initiatePitch();
+				break;
+			case BossState.ANGRY://Got angry once and has not expressed it 
+
+				break;
+			case BossState.CALM1://Got angry once and has already expressed it 
+				break;
+			case BossState.ANGRY1://Got angry twice and has not expressed it 
+				//angry++;
+				break;
+			case BossState.CALM2://Got angry twice and has already expressed it
+				break;
+			case BossState.PERMANGRY://Got angry third time and has not expressed it 
+				//angry++;
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	//The only secrets you are allowed to normally pitch are ones that support the system and status quo
@@ -62,6 +91,8 @@ public class Boss {
 			} else {
 				dialogueSystem.loadDialogueBlock("I won't; whatever else you want, but not this.");
 			}
+			//tank the value of the given secret and mark as offered to the boss
+			pitch.wasBroadcast = true;
 		} else if (pitch.groupName == bossName) {
 			//blackmail the boss
 			blackMailed = true;
@@ -89,7 +120,10 @@ public class Boss {
 			dialogueSystem.loadDialogueBlock(pitch.acceptance);
 			if (pitch.delayedBroadCastDialogue != "") broadCast.addStory(pitch.delayedBroadCastDialogue);
 			broadCast.addStory(pitch.broadCastDialogue);
+			//tank the value of the given secret and mark as broadcast for the player
+			pitch.wasBroadcast = true;
 		}
 		pitch.pitchCount++;
+		speakToBoss.sphereCollider.enabled = false;
 	}
 }

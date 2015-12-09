@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
 
+public enum State { TRADING, PITCHING, PITCHING_COWORKER, IDLE };
+
 public class Inventory : MonoBehaviour {
+
+	public float valueOfTakenSecrets;
 
 	public List<Secret> secretsInventory;
 
@@ -25,15 +29,29 @@ public class Inventory : MonoBehaviour {
 	//If Player just went to world map check with the merchant they dealt with. If the merchant is a silent merchant then evealute the secrets the player traded against the ones they took
 	//mark the merchant as stolen from or short changed accordingly
 	void OnLevelWasLoaded(int level) {
+		state = State.IDLE;
 		if (level == 3 && merchant != null) {
 			float paymentValue = 0;
+			playerOffering.gameObject.SetActive(true);
 			BurnerSecret[] playerPayment = playerOffering.GetComponentsInChildren<BurnerSecret>();
+			playerOffering.gameObject.SetActive(false);
 			for(int i = 0; i < playerPayment.Length; i++) {
-				paymentValue += playerPayment[i].secretData.value;
+				if (playerPayment[i].secretData == merchant.randomSecret) {
+					if(playerPayment.Length == 1)merchant.stolenFrom = true;
+				} else {
+					if(!playerPayment[i].secretData.wasBroadcast) paymentValue += playerPayment[i].secretData.value;
+				}
+				if (playerPayment[i].secretData.dayAccquired == 0) playerPayment[i].secretData.dayAccquired = Calender.getDay;
 			}
 			if(paymentValue == 0) {
 				merchant.stolenFrom = true;
+			}else if(paymentValue < valueOfTakenSecrets) {
+				merchant.shortChanged++;
+				valueOfTakenSecrets = 0f;
 			}
+
+			//make the merchant behave accordingly for the next session i.e. get new random secrets , or get only one secret if shortchanged, or get one of the players secrets if stolen from
+			merchant.changeOutSecrets();
 			merchant = null;
 		}
 	}
@@ -77,7 +95,8 @@ public class Inventory : MonoBehaviour {
 
 	//anytime a player clicks on a trade object this method runs
 	public void initiateTrade(Secret upForTrade, Merchant mrchnt){
-		displayTradeWindow();
+		//If the player inventory is up then don't display the trade window
+		if(!cullingMask.gameObject.activeSelf)displayTradeWindow();
 		state = State.TRADING;
 		if (merchant != mrchnt) {
 			merchant = mrchnt;
@@ -168,6 +187,7 @@ public class Inventory : MonoBehaviour {
 	void hideInventory(){
 		valueSortButton.gameObject.SetActive(false);
 		groupSortButton.gameObject.SetActive(false);
+		descrptionBox.text = "";
 		descrptionBox.gameObject.SetActive(false);
 		cullingMask.gameObject.SetActive (false);
 	}
@@ -176,6 +196,7 @@ public class Inventory : MonoBehaviour {
 	void Update () {
 		//Need to stop people from opening inventory in first and second scenes-------------------------------IMPORTANT!!!!!!!!!-------------------------------------------
 		if (Input.GetKeyUp ("i")) {
+			Debug.Log(state);
 			switch (state) {
 			case State.TRADING:
 				if (cullingMask.gameObject.activeSelf) { //If your inventory is up while trading and you press i then bring trade back up
@@ -197,6 +218,7 @@ public class Inventory : MonoBehaviour {
 			default:
 				break;
 			}
+			Debug.Log(state);
 		}
 		if (Input.GetKeyUp ("space")){
 			switch(state){
@@ -221,5 +243,4 @@ public class Inventory : MonoBehaviour {
 	}
 }
 
-public enum State {TRADING, PITCHING, PITCHING_COWORKER, IDLE};
 

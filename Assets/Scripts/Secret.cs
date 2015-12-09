@@ -5,8 +5,9 @@ using UnityEngine.UI;
 //Need to add an int for the severity of the secret and a color code to corrispond to the secret
 public class Secret : IComparable {
 
-	public int daysSinceAccquired, trueDSA, severity, value, groupNumber, pitchCount;
-	public string groupName, description, crimeTag, aishaRejection, lucaRejection, willRejection, alexRejection, rakeshRejection, mamiRejection, cissexistRejection, 
+	public int dayAccquired, severity, groupNumber, pitchCount;
+	public float value;
+    public string groupName, description, crimeTag, aishaRejection, lucaRejection, willRejection, alexRejection, rakeshRejection, mamiRejection, cissexistRejection, 
 					acceptance, blackmailAcceptance, broadCastDialogue, delayedBroadCastDialogue;
 	public bool wasTraded, wasBroadcast;
 
@@ -31,11 +32,10 @@ public class Secret : IComparable {
 	 BlackMail acceptance of secret (string)
 	 Secret Broadcast dialogue (string)
 	 delayedBroadCastDialogue rejection of secret (string)*/
-	public Secret(int trueDaysSinceAccquired, int severity, int groupNumber, string crimeTag, string description, string groupName, string aishaRejection, string lucaRejection, 
+	public Secret(int dayAccquired, int severity, int groupNumber, string crimeTag, string description, string groupName, string aishaRejection, string lucaRejection, 
 	              string willRejection, string alexRejection, string rakeshRejection, string mamiRejection, string cissexistRejection, string acceptance, string blackmailAcceptance, 
 	              string broadCastDialogue, string delayedBroadCastDialogue) {
-		daysSinceAccquired = 0;	//the player is not given access to the true number of days since the secret was first discovered
-		trueDSA = trueDaysSinceAccquired;
+		this.dayAccquired = dayAccquired;
 		this.severity = severity;
 		this.groupNumber = groupNumber;
 		this.crimeTag = crimeTag;
@@ -77,11 +77,15 @@ public class Secret : IComparable {
 	}
 
 	public void valueUpdate(){
-		value = (severity * groupNumber) / trueDSA;
+		if (dayAccquired == 0) {
+			value = Single.PositiveInfinity;
+		} else {
+			value = (severity * groupNumber) / (Calender.getDay - dayAccquired);
+		}
 	}
 
 	public void displayText(){
-		inven.descrptionBox.text = groupName + "\r\n" + description + "\r\n" + "Days Since Accquired: " + daysSinceAccquired + "\r\n" + crimeTag;
+		inven.descrptionBox.text = groupName + "\r\n" + description + "\r\n" + "Days Since Accquired: " + dayAccquired + "\r\n" + crimeTag;
 	}
 
 	public void hideText(){
@@ -91,6 +95,6 @@ public class Secret : IComparable {
 	//Compares two secrets based on their market value.
 	public int CompareTo (object other){
 		Secret temp = other as Secret;
-		return temp.value - this.value; 
+		return (int) (temp.value - this.value); 
 	}
 }

@@ -33,7 +33,7 @@ public class ObjectPooler : MonoBehaviour {
 
 	public GameObject getPooledObject() {
 		for(int i = 0; i < pooledObjects.Count; i++) {
-			if (!pooledObjects[i].activeInHierarchy) return pooledObjects[i];
+			if (!pooledObjects[i].activeSelf) return pooledObjects[i];
 		}
 
 		if(allowedToGrow) {

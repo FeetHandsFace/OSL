@@ -19,6 +19,7 @@ public class Trade : MonoBehaviour {
 		//pulls a random 
 		merchant = Persistant.persist.merchants[identityNumber];
 		sphereCollider = GetComponent<SphereCollider>();
+		sphereCollider.isTrigger = true;
 	}
 
 	void OnTriggerEnter(Collider other) {

@@ -15,6 +15,7 @@ public class SpeakToCoworker : MonoBehaviour {
 		coworker = Persistant.persist.coWorkers[identityNumber];
 		dialogueSystem = Persistant.persist.GetComponent<DialogueSystem>();
 		sphereCollider = GetComponent<SphereCollider>();
+		sphereCollider.isTrigger = true;
 	}
 
 	void OnTriggerEnter(Collider other) {
