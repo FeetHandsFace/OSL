@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 //Persistant scrpit, Loads and saves eveything, as well as keeping track of the master list of secrets and player list of secrets.
 public class Persistant : MonoBehaviour {
@@ -11,23 +10,17 @@ public class Persistant : MonoBehaviour {
 	bool newGame;
 	
 	//------------------------------------Information to be passed to other scripts
-	public List<Secret> masterList, playerSelectionList;
-	public TextAsset masterFile, playerSelectionFile, topNewsStories;
-	public string[] unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets;
+	public TextAsset topNewsStories;
+	public string[] unPublishableSecrets;
 	
 
-	System.Random rand = new System.Random();
-
-	//---------------------------------------------Player Info
-	[HideInInspector]
-	public bool playerOuted, isFemale;
-	[HideInInspector]
-	public string mainCharacter;
+	System.Random randomGenerator;
 
 	//----------------------------------------------Things to Save
 	//Components
 	Inventory playerInventory;
 	DialogueSystem dialogueSystem;
+	MasterList masterList;
 	Calender calender;
 	//Non-monobehavior scripts
 	public Boss boss;
@@ -46,14 +39,16 @@ public class Persistant : MonoBehaviour {
 	}
 
 	void Start() {
-		masterList = new List<Secret>();
+		randomGenerator = new System.Random();
+
 		//Component scripts initilizded 
+		masterList = GetComponent<MasterList>();
 		dialogueSystem = GetComponent<DialogueSystem>();
 		playerInventory = GetComponent<Inventory>();
 		calender = GetComponent<Calender>();
 		//Non-monobehavior scripts initilized 
 		tvBroadcast = new TVBroadcast(dialogueSystem, topNewsStories.text);
-		boss = new Boss(playerInventory, dialogueSystem, tvBroadcast, unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets);
+		boss = new Boss(playerInventory, dialogueSystem, tvBroadcast, unPublishableSecrets);
 		coWorkers = new Coworker[3] { new Coworker(playerInventory, dialogueSystem), new Coworker(playerInventory, dialogueSystem), new Coworker(playerInventory, dialogueSystem) }; // Start with 3 coworkers
 		
 
@@ -62,24 +57,12 @@ public class Persistant : MonoBehaviour {
 		if (newGame) {
 
 			playerInventory.startNew(boss);
-			//When these first secrets are built the reference to secretObject is null
-			string[] fileParser = masterFile.text.Split("\n"[0]);
-			for (int i = 0; i < fileParser.Length; i += 16) {
-				masterList.Add(new Secret(rand.Next(1, 5), Convert.ToInt32(fileParser[i]), Convert.ToInt32(fileParser[i + 1]), fileParser[i + 2], fileParser[i + 3], fileParser[i + 4],
-										  fileParser[i + 5], fileParser[i + 6], fileParser[i + 7], fileParser[i + 8], fileParser[i + 9], fileParser[i + 10], fileParser[i + 11], fileParser[i + 12],
-										  fileParser[i + 13], fileParser[i + 14], fileParser[i + 15]));
-			}
-			playerSelectionList = new List<Secret>();
-			fileParser = playerSelectionFile.text.Split("\n"[0]);
-			for (int i = 0; i < fileParser.Length; i += 16) {
-				playerSelectionList.Add(new Secret(0, Convert.ToInt32(fileParser[i]), Convert.ToInt32(fileParser[i + 1]), fileParser[i + 2], fileParser[i + 3], fileParser[i + 4],
-												   fileParser[i + 5], fileParser[i + 6], fileParser[i + 7], fileParser[i + 8], fileParser[i + 9], fileParser[i + 10], fileParser[i + 11],
-												   fileParser[i + 12], fileParser[i + 13], fileParser[i + 14], fileParser[i + 15]));
-			}
-
+			//Initilize the merchants and give them a reference to the player's inventory and a random secret
 			merchants = new Merchant[2];
+			List<Secret> randomList;
 			for (int i = 0; i < merchants.Length; i++) {
-				merchants[i] = new Merchant(playerInventory, masterList[rand.Next(1, masterList.Count)]);
+				randomList = MasterList.masterDictionary[randomGenerator.Next(1, MasterList.masterDictionary.Count)];
+                merchants[i] = new Merchant(playerInventory, randomList[randomGenerator.Next(0, randomList.Count)]);
 			}
 		} else {
 			Load();
@@ -106,18 +89,6 @@ public class Persistant : MonoBehaviour {
 		return builtSecrets;
 	}
 
-	public void moveCharacterSecrets(string characterName){
-		mainCharacter = characterName;
-		Debug.Log ("start move");
-		for (int i = 0; i < playerSelectionList.Count; i++) {
-			if(playerSelectionList[i].groupName == characterName){
-				playerInventory.acquireHelper(playerSelectionList[i]);
-			}
-		}
-		Debug.Log ("finish move");
-
-	}
-
 	public void sleepCycle() {
 		calender.changeDay();
 		for(int i = 0; i < playerInventory.secretsInventory.Count; i++) {
@@ -125,9 +96,12 @@ public class Persistant : MonoBehaviour {
 				playerInventory.secretsInventory[i].valueUpdate();
 			}
 		}
+		masterList.newDay();
+		//reload each merchant with new random secrets, should merchants get their own secrets every onLevelLoad instead (they check if their trade zone has been opened)
+		//When a merchant gets a secret all their daysAccquired should be set to 1 and the value updated
 		//If player didn't watch news then pop the news stories of the stack for the day
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	

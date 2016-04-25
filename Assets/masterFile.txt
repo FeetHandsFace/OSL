@@ -3,13 +3,7 @@
 Secret crime Tag (string) player facing
 Secret description (string) player facing
 Secret groupName (string) player facing
-Aisha rejection of secret (string)
-Luca rejection of secret (string)
-Will rejection of secret (string)
-Alex rejection of secret (string)
-Rakesh rejection of secret (string)
-mamai rejection of secret (string)
-cissexist rejection of secret (string)
+rejection of secret (string)
 Acceptance of secret (string)
 BlackMail acceptance of secret (string)
 Secret Broadcast dialogue (string)
@@ -19,13 +13,7 @@ delayedBroadCastDialogue rejection of secret (string)
 Illegal Immigration
 Zuri Hersi followed her older sister Sanaa to the uae after she stopped receiving correspondence from Sanaa.
 Hersi
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -35,13 +23,7 @@ delayedBroadCastDialogue
 Human Trafficking 
 Sanaa Hersi was brought to the UAE under the pretense of a honest job, but on arriving she was forced into sex slavery.
 Hersi
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -51,13 +33,7 @@ delayedBroadCastDialogue
 Graffiti
 Zuri Hersi has joined a active ring of graffiti artists.
 Hersi
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -67,13 +43,7 @@ delayedBroadCastDialogue
 Police Report
 Zuri Hersi called the police with an anonymous tip about the location of a human trafficking ring.
 Hersi
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -83,13 +53,7 @@ delayedBroadCastDialogue
 Prostitution
 Sanaa Hersi and several others have been taken into police custody on prostitution charges.
 Hersi
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 Today several woman were arrested for prostitution were found to have no passports and so they will be deported while the men arrested at the location will be charged with engaging in prostitution and adultery.
@@ -99,13 +63,7 @@ delayedBroadCastDialogue
 Transgender
 Tarik Seif’s given name is Khadija and he was assigned as female at birth. However in public he is known as Tarik and presents as a man.
 Seif
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -115,13 +73,7 @@ delayedBroadCastDialogue
 Employment
 Tarik does not have a job, but receives financial support from the government and her family.
 Seif
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -131,13 +83,7 @@ delayedBroadCastDialogue
 Graffiti
 Tarik is part of ring of graffiti artists and he is the most prolific among them.
 Seif
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -147,13 +93,7 @@ delayedBroadCastDialogue
 Medial Condition
 Zayed Hussain Al-Fazil, CEO of the Al-Fazil telecommunications company, has early onset alzheimer’s.
 Al-Fazil
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 We have learn that the CEO of Al-Fazil has been diagnosed with early onset alzheimer's. When we reached out to Al-Fazil for comment they declined to comment
@@ -163,13 +103,7 @@ Zayed Al-Fazil diagnosis of early onset alzheimers sparked a crisis of confidenc
 Succession
 Zayed Hussain Al-Fazil intends for his wife Layla to succeed him as the CEO of Al-Fazil.
 Al-Fazil
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -179,13 +113,7 @@ delayedBroadCastDialogue
 Prostitution
 Zaynp Ceylan was sentenced with flogging and a year in prison for prostitution.
 Ceylan
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -195,13 +123,7 @@ delayedBroadCastDialogue
 Evidence
 On an anonymous tip Zaynp Ceylan was arrested outside a high end bar wearing a cowl and carrying a burner phone and 6 flash drives.
 Ceylan
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue
@@ -211,13 +133,7 @@ delayedBroadCastDialogue
 Secret Jinn
 Zaynp Ceylan traded false secrets by packaging them on hacked devices that held doctored evidence.
 Ceylan
-Rejection for Aisha
-Rejection for Luca
-Rejection for Will
-Rejection for Alex
-Rejection for Rakesh
-Rejection for Mami
-Cissexist rejection
+Rejection
 Acceptance
 Blackmail Acceptance
 BroadCast dialogue

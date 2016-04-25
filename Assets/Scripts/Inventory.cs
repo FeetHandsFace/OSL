@@ -153,10 +153,12 @@ public class Inventory : MonoBehaviour {
 		displayInventory ();
 	}
 
-	//Displays the trade window
+	//Loads chosen secret from inventory onto burner drive then puts it in trading window
 	public void goBackToTrade (Secret bid){
 		GameObject obj = ObjectPooler.current.getPooledObject();
 		obj.transform.SetParent(playerOffering.transform, false);
+		//randomly position burner in trade window
+		obj.transform.localPosition = new Vector2(Random.Range(-playerOffering.rectTransform.sizeDelta.x/2, playerOffering.rectTransform.sizeDelta.x / 2), Random.Range(-playerOffering.rectTransform.sizeDelta.y / 2, playerOffering.rectTransform.sizeDelta.y / 2));
 		BurnerSecret burner = obj.GetComponent<BurnerSecret>();
 		burner.secretData = bid;
 		burner.mouseInfoText = scrollOverInfo;

@@ -1,0 +1,30 @@
+4
+1
+Apostasy
+Aisha was raised as a muslim and she still performs the rituals , but she no longer has faith.
+Aisha Al-Suwaidi
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+delayedBroadCastDialogue rejection of secret (string)
+1
+1
+Medical Condition
+Aisha has endometriosis and must manage chronic pain as a result.
+Aisha Al-Suwaidi
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+delayedBroadCastDialogue rejection of secret (string)
+6
+1
+Abortion
+Aisha had an abortion.
+Aisha Al-Suwaidi
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+delayedBroadCastDialogue rejection of secret (string)

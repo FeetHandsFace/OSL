@@ -28,7 +28,7 @@ public class DisplaySecret : MonoBehaviour {
 			thisSecret.inven.daBoss.pitchSecret(thisSecret);
 			break;
 		case State.PITCHING_COWORKER:
-			thisSecret.inven.coWorker.giveSecret(thisSecret);
+			//thisSecret.inven.coWorker.giveSecret(thisSecret);
 			break;
 		case State.TRADING:
 			thisSecret.inven.goBackToTrade (thisSecret);

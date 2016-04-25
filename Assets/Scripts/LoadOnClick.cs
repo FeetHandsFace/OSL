@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 
 public class LoadOnClick : MonoBehaviour {
 
-	public string destination;
-	public string home;
+	public int levelToLoad;
 	
 	public void load(){
-		if (/*check for save game*/false) {
-			Application.LoadLevel(home);
+		int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+		if(sceneIndex == 0) {
+			SceneManager.LoadScene(1);//office
+		} else if(levelToLoad > 0) {
+			SceneManager.LoadScene(levelToLoad);
 		} else {
-			Application.LoadLevel(destination);
+			SceneManager.LoadScene(2); //Worldmap
 		}
 	}
 }

@@ -13,6 +13,10 @@ public class Calender : MonoBehaviour {
 		//if the level is a trading space call today.day() on the level manager
 	}
 
+	void Start() {
+		today = 0;
+	}
+
 	public void changeDay() {
 		today++;
 	}

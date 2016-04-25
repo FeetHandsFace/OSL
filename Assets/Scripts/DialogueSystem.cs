@@ -27,8 +27,10 @@ public class DialogueSystem : MonoBehaviour {
 	}
 
 	public void cutOffConversation() {
-		dialogueBlock.Clear();
-		converstationBox.text = "";
+		if(dialogueBlock != null) {
+			dialogueBlock.Clear();
+			converstationBox.text = "";
+		}
 		//cut off conversation when leaving a scene or when leaving the boss collider sphere
 	}
 	

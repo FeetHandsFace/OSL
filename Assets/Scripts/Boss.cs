@@ -14,31 +14,27 @@ public class Boss {
 
 	SpeakToBoss speakToBoss;
 
-	string[] unPublishableSecrets, sexistUnPublishableSecrets, cisSexistUnPublishableSecrets;
+	string[] unPublishableSecrets;
 
-	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS) {
+	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS) {
 		//bossName =  need to choose the boss' name
 		bossAndPlayerInfo = Persistant.persist;
 		inven = invntry;
 		dialogueSystem = dSystem;
 		broadCast = tvBroadcast;
 		unPublishableSecrets = uPS;
-		sexistUnPublishableSecrets = sUPS;
-		cisSexistUnPublishableSecrets = cUPS;
 		blackMailed = false;
 		fired = false;
 		bossState = BossState.CALM;
 	}
 
-	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, string[] sUPS, string[] cUPS, bool wasBlackMailed, bool wasFired, BossState bState) {
+	public Boss(Inventory invntry, DialogueSystem dSystem, TVBroadcast tvBroadcast, string[] uPS, bool wasBlackMailed, bool wasFired, BossState bState) {
 		//bossName =  need to choose the boss' name
 		bossAndPlayerInfo = Persistant.persist;
 		inven = invntry;
 		dialogueSystem = dSystem;
 		broadCast = tvBroadcast;
 		unPublishableSecrets = uPS;
-		sexistUnPublishableSecrets = sUPS;
-		cisSexistUnPublishableSecrets = cUPS;
 		blackMailed = wasBlackMailed;
 		fired = wasFired;
 		bossState = bState;
@@ -48,6 +44,7 @@ public class Boss {
 
 	}
 
+	//should i include the system that makes the boss angry when you walk out mid conversation
 	public void beginConversation(SpeakToBoss stb) {
 		speakToBoss = stb;
 		if (blackMailed) {
@@ -97,7 +94,7 @@ public class Boss {
 			//blackmail the boss
 			blackMailed = true;
 			dialogueSystem.loadDialogueBlock("Okay. Whatever you want; just please don't spread this around");
-		}else if(pitch.groupName == bossAndPlayerInfo.mainCharacter) {
+		}else if(pitch.groupName == "Aisha") {
 			dialogueSystem.loadDialogueBlock("You are not news.");
 		} else if (pitch.pitchCount > 0) {
 			//print generic dialogue for second refusal
@@ -107,20 +104,13 @@ public class Boss {
 			dialogueSystem.loadDialogueBlock("You are wasting my time; get the hell out of my office.");
 		} else if (Array.Exists (unPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
 			//print rejection (applies to everyone)
-			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
-		} else if (bossAndPlayerInfo.isFemale && Array.Exists (sexistUnPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
-			//print rejection (applies to mami, aisha, and luca only)
-			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
-		} else if (bossAndPlayerInfo.playerOuted && Array.Exists (cisSexistUnPublishableSecrets, delegate (string a) {return a == pitch.groupName;})) {
-			//print rejection (can apply to mami and alex)
-			dialogueSystem.loadDialogueBlock(pitch.pullRejection(bossAndPlayerInfo.mainCharacter));
-
 		} else {
 			//print accept and add to the queue
 			dialogueSystem.loadDialogueBlock(pitch.acceptance);
 			if (pitch.delayedBroadCastDialogue != "") broadCast.addStory(pitch.delayedBroadCastDialogue);
 			broadCast.addStory(pitch.broadCastDialogue);
 			//tank the value of the given secret and mark as broadcast for the player
+			//trigger a world event if the secret has one
 			pitch.wasBroadcast = true;
 		}
 		pitch.pitchCount++;
