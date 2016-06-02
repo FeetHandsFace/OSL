@@ -60,10 +60,8 @@ public class Persistant : MonoBehaviour {
 			masterList.startNew();
 			//Initilize the merchants and give them a reference to the player's inventory and a random secret
 			merchants = new Merchant[2];
-			List<Secret> randomList;
 			for (int i = 0; i < merchants.Length; i++) {
-				randomList = MasterList.masterDictionary[randomGenerator.Next(1, MasterList.masterDictionary.Count)];
-                merchants[i] = new Merchant(playerInventory, randomList[randomGenerator.Next(0, randomList.Count)]);
+                merchants[i] = new Merchant(playerInventory);
 			}
 		} else {
 			Load();

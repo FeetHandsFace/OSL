@@ -9,16 +9,16 @@ public class MasterList : MonoBehaviour {
 	public static Dictionary<int, List<Secret>> masterDictionary;
 	public DayArray[] allDays;
 	public TextAsset protagonist; 
-	System.Random rand;
+	public static System.Random randomGenerator;
 
 	public void startNew() {
-		rand = new System.Random();
+		randomGenerator = new System.Random();
 		masterDictionary = new Dictionary<int, List<Secret>>();
 		string[] fileParser = protagonist.text.Split("\n"[0]);
 		Secret secret;
 		Inventory inven = GetComponent<Inventory>();
 		for(int j = 0; j < fileParser.Length; j += 10) {
-			secret = new Secret(rand.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
+			secret = new Secret(randomGenerator.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
 										fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9]);
 			inven.acquireHelper(secret);
 		}
@@ -39,7 +39,7 @@ public class MasterList : MonoBehaviour {
 				masterDictionary.Add(i, new List<Secret>());
 			}
 			for(int j = 0; j < fileParser.Length; j += 10) {
-				secret = new Secret(rand.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
+				secret = new Secret(randomGenerator.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
 										  fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9]);
 				masterDictionary[i].Add(secret);
 			}

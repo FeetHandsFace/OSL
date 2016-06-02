@@ -8,7 +8,7 @@ public class Merchant {
 	public Inventory inven;
 	public List<Secret> randomSecrets;//replace with an array of secrets
 
-	public Merchant(Inventory invntry, Secret rando) {
+	public Merchant(Inventory invntry) {
 		randomSecrets = new List<Secret>();
  		inven = invntry;
 		stolenFrom = false;
@@ -23,7 +23,9 @@ public class Merchant {
 	}
 
 	public void changeOutSecrets() {
-		if (stolenFrom) {
+		randomSecrets.Clear();
+		List<Secret> randomList;
+		if(stolenFrom) {
 			//search for a secret about the player in the persistant.playerSelectionList
 		}else if(shortChanged > 0) {
 			if (shortChanged == 2) {
@@ -34,7 +36,11 @@ public class Merchant {
 				//get only one old secret
 			}
 		} else {
-			//get random secrets until you have at least one that is at most 2 days old
+			//get random secrets until you have three secrets
+			for(int i = 0; i < 3; i++) {
+				randomList = MasterList.masterDictionary[MasterList.randomGenerator.Next(1, MasterList.masterDictionary.Count)];
+				randomSecrets.Add(randomList[MasterList.randomGenerator.Next(0, randomList.Count)]);
+			}
 		}
 	}
 
