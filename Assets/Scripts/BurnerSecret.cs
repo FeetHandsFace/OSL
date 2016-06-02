@@ -26,6 +26,7 @@ public class BurnerSecret : MonoBehaviour {
 	public void take() {
 		mouseInfoText.text = "";
 		if(secretData.secretObject != null) {   //you are taking back a secret that you alread own
+			gameObject.transform.SetParent(ObjectPooler.current.transform);
 			gameObject.SetActive(false);
 		} else {                            //you are taking a secret from a merchant
 			secretData.inven.valueOfTakenSecrets += secretData.value;

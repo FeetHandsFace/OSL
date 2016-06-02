@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour {
 			BurnerSecret[] playerPayment = playerOffering.GetComponentsInChildren<BurnerSecret>();
 			playerOffering.gameObject.SetActive(false);
 			for(int i = 0; i < playerPayment.Length; i++) {
-				if (playerPayment[i].secretData == merchant.randomSecret) {
+				if (merchant.randomSecrets.Contains(playerPayment[i].secretData)) {
 					if(playerPayment.Length == 1)merchant.stolenFrom = true;
 				} else {
 					if(!playerPayment[i].secretData.wasBroadcast) paymentValue += playerPayment[i].secretData.value;
@@ -94,18 +94,23 @@ public class Inventory : MonoBehaviour {
 	}
 
 	//anytime a player clicks on a trade object this method runs
-	public void initiateTrade(Secret upForTrade, Merchant mrchnt){
+	public void initiateTrade(List<Secret> upForTrade, Merchant mrchnt){
 		//If the player inventory is up then don't display the trade window
 		if(!cullingMask.gameObject.activeSelf)displayTradeWindow();
 		state = State.TRADING;
 		if (merchant != mrchnt) {
 			merchant = mrchnt;
-			GameObject obj = ObjectPooler.current.getPooledObject();
-			obj.transform.SetParent(tradeContents.transform, false);
-			BurnerSecret burner = obj.GetComponent<BurnerSecret>();
-			burner.secretData = upForTrade;
-			burner.mouseInfoText = scrollOverInfo;
-			obj.SetActive(true);
+			RectTransform rectT;
+			for(int i = 0; i < upForTrade.Count; i++) {
+				GameObject obj = ObjectPooler.current.getPooledObject();
+				obj.transform.SetParent(tradeContents.transform, false);
+				BurnerSecret burner = obj.GetComponent<BurnerSecret>();
+				burner.secretData = upForTrade[i];
+				burner.mouseInfoText = scrollOverInfo;
+				obj.SetActive(true);
+				rectT = obj.GetComponent<RectTransform>();
+				rectT.anchoredPosition = new Vector2(i * 50 - 100, rectT.anchoredPosition.y);
+			}
 		}
 	}
 	//Used when moving out of the collider of a trade object

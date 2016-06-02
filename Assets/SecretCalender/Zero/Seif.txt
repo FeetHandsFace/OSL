@@ -1,0 +1,30 @@
+6
+3
+Transgender
+Tarik Seif’s given name is Khadija and he was assigned as female at birth. However in public he is known as Tarik and presents as a man.
+Seif
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+1
+3
+Employment
+Tarik does not have a job, but receives financial support from the government and her family.
+Seif
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+2
+3
+Graffiti
+Tarik is part of ring of graffiti artists and he is the most prolific among them.
+Seif
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue

@@ -1,0 +1,50 @@
+5
+2
+Illegal Immigration
+Zuri Hersi followed her older sister Sanaa to the uae after she stopped receiving correspondence from Sanaa.
+Hersi
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+8
+2
+Human Trafficking 
+Sanaa Hersi was brought to the UAE under the pretense of a honest job, but on arriving she was forced into sex slavery.
+Hersi
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+2
+2
+Graffiti
+Zuri Hersi has joined a active ring of graffiti artists.
+Hersi
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+4
+2
+Police Report
+Zuri Hersi called the police with an anonymous tip about the location of a human trafficking ring.
+Hersi
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+6
+2
+Prostitution
+Sanaa Hersi and several others have been taken into police custody on prostitution charges.
+Hersi
+Rejection
+Acceptance
+Blackmail Acceptance
+Today several woman were arrested for prostitution were found to have no passports and so they will be deported while the men arrested at the location will be charged with engaging in prostitution and adultery.
+delayedBroadCastDialogue

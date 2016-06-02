@@ -57,6 +57,7 @@ public class Persistant : MonoBehaviour {
 		if (newGame) {
 
 			playerInventory.startNew(boss);
+			masterList.startNew();
 			//Initilize the merchants and give them a reference to the player's inventory and a random secret
 			merchants = new Merchant[2];
 			List<Secret> randomList;
@@ -97,7 +98,7 @@ public class Persistant : MonoBehaviour {
 			}
 		}
 		masterList.newDay();
-		//reload each merchant with new random secrets, should merchants get their own secrets every onLevelLoad instead (they check if their trade zone has been opened)
+		//reload each merchant with new random secrets at the day change
 		//When a merchant gets a secret all their daysAccquired should be set to 1 and the value updated
 		//If player didn't watch news then pop the news stories of the stack for the day
 	}

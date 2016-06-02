@@ -1,0 +1,30 @@
+6
+5
+Prostitution
+Zaynp Ceylan was sentenced with flogging and a year in prison for prostitution.
+Ceylan
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+1
+5
+Evidence
+On an anonymous tip Zaynp Ceylan was arrested outside a high end bar wearing a cowl and carrying a burner phone and 6 flash drives.
+Ceylan
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue
+1
+5
+Secret Jinn
+Zaynp Ceylan traded false secrets by packaging them on hacked devices that held doctored evidence.
+Ceylan
+Rejection
+Acceptance
+Blackmail Acceptance
+BroadCast dialogue
+delayedBroadCastDialogue

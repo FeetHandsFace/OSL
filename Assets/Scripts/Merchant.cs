@@ -1,21 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class Merchant {
 
 	public bool stolenFrom;
 	public int shortChanged;
 	public Inventory inven;
-	public Secret randomSecret;//replace with an array of secrets
+	public List<Secret> randomSecrets;//replace with an array of secrets
 
 	public Merchant(Inventory invntry, Secret rando) {
-		randomSecret = rando;
-		inven = invntry;
+		randomSecrets = new List<Secret>();
+ 		inven = invntry;
 		stolenFrom = false;
 		shortChanged = 0;
 	}
 
-	public Merchant(Inventory invntry, Secret rando, bool stolen, int shortted) {
-		randomSecret = rando;
+	public Merchant(Inventory invntry, List<Secret> randos, bool stolen, int shortted) {
+		randomSecrets = randos;
 		inven = invntry;
 		stolenFrom = stolen;
 		shortChanged = shortted;
@@ -38,6 +39,6 @@ public class Merchant {
 	}
 
     public void beginTrade() {
-		inven.initiateTrade(randomSecret, this);
+		inven.initiateTrade(randomSecrets, this);
 	}
 }

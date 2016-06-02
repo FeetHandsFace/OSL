@@ -7,8 +7,6 @@ public class Calender : MonoBehaviour {
 	public static int getDay {get {return today;}}
 	static int today;
 
-	public TextAsset[] secretTimeLine;
-
 	void OnLevelWasLoaded(int level) {
 		//if the level is a trading space call today.day() on the level manager
 	}
