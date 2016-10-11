@@ -12,7 +12,7 @@ public class Calender : MonoBehaviour {
 	}
 
 	void Start() {
-		today = 0;
+		today = 1;
 	}
 
 	public void changeDay() {

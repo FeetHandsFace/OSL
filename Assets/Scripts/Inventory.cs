@@ -30,7 +30,9 @@ public class Inventory : MonoBehaviour {
 	//mark the merchant as stolen from or short changed accordingly
 	void OnLevelWasLoaded(int level) {
 		state = State.IDLE;
-		if (level == 3 && merchant != null) {
+		Debug.Log("level " + level);
+		if (level == 2 && merchant != null) {
+			Debug.Log("loaded world map");
 			float paymentValue = 0;
 			playerOffering.gameObject.SetActive(true);
 			BurnerSecret[] playerPayment = playerOffering.GetComponentsInChildren<BurnerSecret>();
@@ -42,6 +44,7 @@ public class Inventory : MonoBehaviour {
 					if(!playerPayment[i].secretData.wasBroadcast) paymentValue += playerPayment[i].secretData.value;
 				}
 				if (playerPayment[i].secretData.dayAccquired == 0) playerPayment[i].secretData.dayAccquired = Calender.getDay;
+				//make sure the player doesn't already have the secret, and we are accidently resetting the day accquired
 			}
 			if(paymentValue == 0) {
 				merchant.stolenFrom = true;

@@ -16,11 +16,14 @@ public class Trade : MonoBehaviour {
 	// Use this for initialization
 	void OnLevelWasLoaded(int level) {
 		//pulls a random 
-		//IMPORTANT!!-----------------all the merchants must be blocked together in the scene manager
+		//IMPORTANT!!-----------------all the trade scenes must be blocked together in the unity scene manager
 		merchant = Persistant.persist.merchants[level - 4];
-		merchant.changeOutSecrets();
-		sphereCollider = GetComponent<SphereCollider>();
-		sphereCollider.isTrigger = true;
+		if(!merchant.hasTradedToday) {
+			sphereCollider = GetComponent<SphereCollider>();
+			sphereCollider.isTrigger = true;
+		} else {
+			gameObject.SetActive(false);
+		}
 	}
 
 	void OnTriggerEnter(Collider other) {

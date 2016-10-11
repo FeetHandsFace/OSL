@@ -14,7 +14,6 @@ public class Persistant : MonoBehaviour {
 	public string[] unPublishableSecrets;
 	
 
-	System.Random randomGenerator;
 
 	//----------------------------------------------Things to Save
 	//Components
@@ -39,7 +38,6 @@ public class Persistant : MonoBehaviour {
 	}
 
 	void Start() {
-		randomGenerator = new System.Random();
 
 		//Component scripts initilizded 
 		masterList = GetComponent<MasterList>();
@@ -92,11 +90,19 @@ public class Persistant : MonoBehaviour {
 		calender.changeDay();
 		for(int i = 0; i < playerInventory.secretsInventory.Count; i++) {
 			if (playerInventory.secretsInventory[i].dayAccquired != 0) {
+				Debug.Log(playerInventory.secretsInventory[i].dayAccquired + " day accquired");
+				Debug.Log(Calender.getDay);
 				playerInventory.secretsInventory[i].valueUpdate();
 			}
 		}
 		masterList.newDay();
-		//reload each merchant with new random secrets at the day change
+		for(int i = 0; i < merchants.Length; i++) {
+			merchants[i].hasTradedToday = false;
+		}
+		for(int i = 0; i < coWorkers.Length; i++) {
+			coWorkers[i].alreadySearching = false;
+		}
+		//Should a merchant change out their secrets every day?
 		//When a merchant gets a secret all their daysAccquired should be set to 1 and the value updated
 		//If player didn't watch news then pop the news stories of the stack for the day
 	}

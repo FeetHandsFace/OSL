@@ -1,0 +1,40 @@
+6
+6
+Homosexuality 
+Fatima Ramadani is in a secret relationship with another student at Al-Hawari international academy.
+Ramadani 
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+Delayed Broadcast dialogue  (string)
+2
+6
+Converstion Therapy
+The Ramadani family sent their daughter Fatima to live with extended family in Yemen.
+Ramadani
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+Delayed Broadcast dialogue  (string)
+6
+6
+Homosexuality
+Fatima kept an anonymous blog which included her budding sexuality. Fatima kept correspondence with a gay woman. 
+Ramadani
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+Delayed Broadcast dialogue  (string)
+3
+6
+Jin
+Shakir the oldest brother was found doing Jin activities past curfew and when his parents were told they grounded him.
+Ramadani
+rejection of secret (string)
+Acceptance of secret (string)
+BlackMail acceptance of secret (string)
+Secret Broadcast dialogue (string)
+Delayed Broadcast dialogue  (string)

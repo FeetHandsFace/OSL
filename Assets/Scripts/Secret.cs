@@ -6,7 +6,7 @@ public class Secret : IComparable {
 	public int dayAccquired, severity, groupNumber, pitchCount;
 	public float value;
     public string groupName, description, crimeTag,  rejection, acceptance, blackmailAcceptance, broadCastDialogue, delayedBroadCastDialogue;
-	public bool wasTraded, wasBroadcast;
+	public bool wasBroadcast, wasGivenByCoworker;
 
 	public Button secretObject;
 	public Inventory inven;
@@ -24,7 +24,7 @@ public class Secret : IComparable {
 	 Secret Broadcast dialogue (string)
 	 delayedBroadCastDialogue rejection of secret (string)*/
 	public Secret(int dayAccquired, int severity, int groupNumber, string crimeTag, string description, string groupName, string rejection, string acceptance, string blackmailAcceptance, 
-	              string broadCastDialogue, string delayedBroadCastDialogue) {
+	              string broadCastDialogue, string delayedBroadCastDialogue, bool wasGivenByCoworker) {
 		this.dayAccquired = dayAccquired;
 		this.severity = severity;
 		this.groupNumber = groupNumber;
@@ -36,7 +36,7 @@ public class Secret : IComparable {
 		this.blackmailAcceptance = blackmailAcceptance;
 		this.broadCastDialogue = broadCastDialogue;
 		this.delayedBroadCastDialogue = delayedBroadCastDialogue;
-		wasTraded = false; //I don't think i need this
+		this.wasGivenByCoworker = wasGivenByCoworker; //I don't think i need this
 		wasBroadcast = false; //maybe don't need this either, I will simply tank the value of the secret
 		inven = Persistant.persist.GetComponent<Inventory> ();
 		valueUpdate ();

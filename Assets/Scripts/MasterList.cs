@@ -18,8 +18,8 @@ public class MasterList : MonoBehaviour {
 		Secret secret;
 		Inventory inven = GetComponent<Inventory>();
 		for(int j = 0; j < fileParser.Length; j += 10) {
-			secret = new Secret(randomGenerator.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
-										fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9]);
+			secret = new Secret(0, Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
+										fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9], false);
 			inven.acquireHelper(secret);
 		}
 		parseTextAssetArray(0);
@@ -40,7 +40,7 @@ public class MasterList : MonoBehaviour {
 			}
 			for(int j = 0; j < fileParser.Length; j += 10) {
 				secret = new Secret(randomGenerator.Next(1, 5), Convert.ToInt32(fileParser[j]), Convert.ToInt32(fileParser[j + 1]), fileParser[j + 2], fileParser[j + 3], fileParser[j + 4],
-										  fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9]);
+										  fileParser[j + 5], fileParser[j + 6], fileParser[j + 7], fileParser[j + 8], fileParser[j + 9], false);
 				masterDictionary[i].Add(secret);
 			}
 		}
